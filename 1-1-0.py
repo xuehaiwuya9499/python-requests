@@ -1,4 +1,5 @@
 import requests
+import os
 url = 'http://www.ngchina.com.cn/'
 try:
     r = requests.get(url)
@@ -21,15 +22,19 @@ for t in lis:
         if 'http' in url:
             lisurl.append(url)
 print(len(lisurl))
+root = 'D://picture//'
+if not os.path.exists(root):
+    os.mkdir(root)
 for l in lisurl:
     try:
         r = requests.get(l)
         r.raise_for_status()
         abc = r.content
-        filename = l.split('/')[-1]
-        f=open(filename,'wb')
-        f.write(abc)
-        f.close()
-        print('保存图片成功！')
+        filename = root + l.split('/')[-1]
+        if not os.path.exists(filename):
+            f=open(filename,'wb')
+            f.write(abc)
+            f.close()
+            print('保存图片成功！')
     except:
         print('保存图片失败！')
